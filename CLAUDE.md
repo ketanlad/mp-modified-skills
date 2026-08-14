@@ -1,23 +1,61 @@
-Skills are organized into bucket folders under `skills/`:
+# mp-modified-skills
 
-- `engineering/` — daily code work
-- `productivity/` — daily non-code workflow tools
-- `misc/` — kept around but rarely used, not promoted
-- `in-progress/` — beta: public on purpose, feedback wanted, not shipped in the plugin
-- `deprecated/` — no longer used
+A fork of [mattpocock/skills](https://github.com/mattpocock/skills), trimmed to the engineering flow
+the Loom workspace actually runs and adapted to its conventions. **This repo holds skills only — it
+is not the workspace.** Workspace rules live in `/home/klad/loom/CLAUDE.md`.
 
-Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array (the Claude Code plugin ships exactly the promoted set). Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear in either.
+## What survived the fork, and why
 
-Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). `.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace — a fallback the install block explains, not the documented route. Run `claude plugin validate . --strict` after touching either manifest. Why a Claude plugin but not (yet) a Codex one lives in [.agents/adr/0002-ship-as-a-claude-code-plugin.md](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
+23 skills in two buckets. `misc/`, `in-progress/`, `deprecated/`, `teach` and `to-questionnaire` were
+deleted, along with the upstream publishing apparatus (`docs/`, changesets, release workflow,
+`package.json`, every `agents/openai.yaml` — Codex-only metadata we don't use).
 
-Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
+The spine is `setup-matt-pocock-skills` (once per repo) → `grill-with-docs` → `to-spec` →
+`to-tickets` → `implement` (drives `tdd`, closes with `code-review`). `grilling`,
+`domain-modeling` and `codebase-design` are load-bearing vocabulary layers under it — 3–5 skills
+each invoke them, so don't delete them. Everything else is an on-ramp (`triage`, `diagnosing-bugs`,
+`wayfinder`) or standalone.
 
-Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`. The promoted buckets' `README.md`s and the top-level `README.md` group entries into **User-invoked** and **Model-invoked**; non-promoted bucket `README.md`s (`misc/`, `in-progress/`) use a flat list.
+[`ask-matt`](./skills/engineering/ask-matt/SKILL.md) is the router and the map. It hard-names every
+user-reachable skill, so **any skill you add, rename, or remove means editing `ask-matt`** — a router
+that lies is worse than no router.
 
-Skills in `engineering/` and `productivity/` also have a human-facing docs page at `docs/<bucket>/<skill-name>.md` (the docs tree mirrors those two bucket folders under `skills/`). The published URL is `https://aihero.dev/skills-<skill-name>` regardless of bucket — the docs path is repo organisation only. When you add, rename, or change the behaviour of a skill in `engineering/` or `productivity/`, create or re-sync its docs page following [.agents/writing-docs.md](./.agents/writing-docs.md). A finished page carries four sections — **What it does**, **When to reach for it**, **Common questions**, **It's working if** — and `writing-docs.md` holds the template, the section order, and where to hunt for the questions. Skills in the non-promoted buckets (`misc/`, `in-progress/`, `deprecated/`) get **no** docs page.
+## Local deviations from upstream
 
-Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md).
+Keep these when merging upstream changes; they are deliberate, not drift.
 
-[`ask-matt`](./skills/engineering/ask-matt/SKILL.md) is the router that maps every user-reachable skill and how they relate. The same trigger that re-syncs a docs page applies to it: whenever you add, rename, remove, or change how a user-reachable skill fits the flows, re-read `ask-matt`'s `SKILL.md` and update it so the map stays accurate — a new skill it never mentions, or a stale one it still routes to, is a router that lies.
+- **`to-tickets` locks the design into the ticket body** — exact paths, signatures, models,
+  "implement exactly this", plus a mandatory `## Success Criteria` and an explicit
+  `## Analysis required` for anything unsettled. Upstream says to keep file paths out of tickets;
+  our tickets are worked by agents that never saw the design conversation, so a stale path costs one
+  correction while a re-decided design costs the whole ticket. Local-file tracker mode is removed.
+- **`implement` enforces the workspace hard gates** — `uv run pytest --cov` at ≥80%, pyright,
+  docs-before-code, branch → PR ending `Closes #<n>` → merge → board Status → Done, and it reaches
+  for the repo's own scaffolding skill (`new-loom-module` and friends) rather than re-deriving layout.
+- **`setup-matt-pocock-skills` is GitHub-only** — GitLab and local-markdown templates are gone. Every
+  repo here is under the `ketanlad` owner on the **Loom Agent** board.
 
-To (re)link every skill into the local harness skill directories (`~/.claude/skills`, `~/.agents/skills`), run `scripts/link-skills.sh`. Each entry is a symlink into this repo, so a `git pull` keeps installed skills current; re-run the script after adding, removing, or renaming a skill.
+## Conventions
+
+- Each skill is either **user-invoked** (`disable-model-invocation: true` — only the human can fire
+  it; may call model-invoked skills, never another user-invoked one) or **model-invoked** (no flag,
+  description carries trigger phrases). See [.agents/invocation.md](./.agents/invocation.md).
+- Dependencies between skills are **prose `/skill` invocations**, never `../other-skill/FILE.md`
+  cross-references. Shared reference docs live inside the skill that owns them.
+- Each bucket's `README.md` and the top-level `README.md` list every skill in it, grouped
+  User-invoked / Model-invoked, name linked to its `SKILL.md`.
+- `.claude-plugin/plugin.json`'s `skills` array is the install allowlist and must match the folders
+  on disk. Run `claude plugin validate . --strict` after touching it.
+- Writing or editing a skill? Use the `writing-for-agents` skill.
+
+## Install
+
+This fork is its own single-plugin marketplace. From the workspace:
+
+```bash
+claude plugin marketplace add /home/klad/loom/mp-modified-skills
+```
+
+then install `mattpocock-skills`. `plugin.json` controls exactly what ships, and it's project-scoped.
+`scripts/link-skills.sh` is the alternative — it symlinks every skill into `~/.claude/skills`
+user-wide, ignoring `plugin.json`. Use one route, not both, or every skill appears twice.
