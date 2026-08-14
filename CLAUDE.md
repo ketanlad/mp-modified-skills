@@ -1,8 +1,14 @@
 # mp-modified-skills
 
 A fork of [mattpocock/skills](https://github.com/mattpocock/skills), trimmed to the engineering flow
-the Loom workspace actually runs and adapted to its conventions. **This repo holds skills only — it
-is not the workspace.** Workspace rules live in `/home/klad/loom/CLAUDE.md`.
+we actually run.
+
+**The skills stay generic.** No repo names, paths, commands, or stack assumptions belong in a
+`SKILL.md`. Everything project-specific is read at runtime from the consuming repo's own files —
+`docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/triage-labels.md`, `CONTEXT.md`,
+`docs/adr/`, and the repo's `CLAUDE.md`/`AGENTS.md`. That's what makes this set droppable into any
+project, so keep it that way: if a change would only be true here, it belongs in one of those files
+instead.
 
 ## What survived the fork, and why
 
@@ -22,18 +28,21 @@ that lies is worse than no router.
 
 ## Local deviations from upstream
 
-Keep these when merging upstream changes; they are deliberate, not drift.
+Two skills differ from upstream. Both stay stack-agnostic. Keep them when merging upstream changes —
+they're deliberate, not drift.
 
-- **`to-tickets` locks the design into the ticket body** — exact paths, signatures, models,
-  "implement exactly this", plus a mandatory `## Success Criteria` and an explicit
-  `## Analysis required` for anything unsettled. Upstream says to keep file paths out of tickets;
-  our tickets are worked by agents that never saw the design conversation, so a stale path costs one
-  correction while a re-decided design costs the whole ticket. Local-file tracker mode is removed.
-- **`implement` enforces the workspace hard gates** — `uv run pytest --cov` at ≥80%, pyright,
-  docs-before-code, branch → PR ending `Closes #<n>` → merge → board Status → Done, and it reaches
-  for the repo's own scaffolding skill (`new-loom-module` and friends) rather than re-deriving layout.
-- **`setup-matt-pocock-skills` is GitHub-only** — GitLab and local-markdown templates are gone. Every
-  repo here is under the `ketanlad` owner on the **Loom Agent** board.
+- **`to-tickets` locks the design into the ticket body** — exact paths, signatures and models stated
+  as "implement exactly this", plus a mandatory `## Success Criteria` (each criterion naming the
+  command that verifies it), an explicit `## Analysis required` for anything unsettled, and
+  `## Out of scope`. Upstream deliberately keeps file paths out of tickets so they don't go stale.
+  We invert that because our tickets are worked by fresh agents that never saw the design
+  conversation: a stale path costs one correction, an agent re-deciding a settled design costs the
+  whole ticket. Only adopt upstream's version if you move to tickets a human implements.
+- **`implement` treats the repo's documented gates as hard gates** — it reads
+  `docs/agents/issue-tracker.md` for ship mechanics and `CLAUDE.md`/`AGENTS.md`/`CONTRIBUTING.md` for
+  the test command, coverage threshold and typechecker, verifies every success criterion by actually
+  running it, and reaches for a repo's own scaffolding skill when one fits. Upstream's version is six
+  lines and assumes you're watching.
 
 ## Conventions
 
@@ -53,7 +62,7 @@ Keep these when merging upstream changes; they are deliberate, not drift.
 This fork is its own single-plugin marketplace. From the workspace:
 
 ```bash
-claude plugin marketplace add /home/klad/loom/mp-modified-skills
+claude plugin marketplace add ./mp-modified-skills
 ```
 
 then install `mattpocock-skills`. `plugin.json` controls exactly what ships, and it's project-scoped.

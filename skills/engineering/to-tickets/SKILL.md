@@ -57,20 +57,27 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the tickets to the configured tracker
 
-Publish the approved tickets to the tracker `/setup-matt-pocock-skills` configured, following the
-workflow in `docs/agents/issue-tracker.md`.
+Publish the approved tickets the way `docs/agents/issue-tracker.md` says. The tickets are the same
+either way — only the shape of the blocking edges changes:
 
-Publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can
-reference real identifiers. Use the platform's native blocking / sub-issue relationship where it has
-one; otherwise set each ticket's "Blocked by" to the blocking issues. Apply the `ready-for-agent`
-triage label unless instructed otherwise — the tickets are agent-grabbable by construction.
+- **A real issue tracker (GitHub, GitLab, Linear, …)** → one issue per ticket, in dependency order
+  (blockers first) so each ticket's edges can reference real identifiers. Use the platform's native
+  blocking / sub-issue relationship where it has one; otherwise set each ticket's "Blocked by" to the
+  blocking issues. Apply the `ready-for-agent` triage label unless instructed otherwise — these
+  tickets are agent-grabbable by construction.
+- **Local files** → one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`,
+  numbered from `01` in dependency order, each file's "Blocked by" listing the numbers it depends on.
+  One ticket per file, never a single combined file.
 
-Work happens on **leaf issues only**: an issue with open sub-issues is a container, never a unit of
-work.
+Where the tracker has a parent/sub-issue model, work happens on **leaf tickets only**: a ticket with
+open children is a container, never a unit of work.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
 Do NOT close or modify any parent issue.
+
+Both forms carry the same sections. Use `<issue-template>` on a tracker; on local files, put the
+title as an `# <NN> — <title>` heading and keep the rest identical.
 
 <issue-template>
 

@@ -10,7 +10,7 @@
 
 # Skills For Real Engineers
 
-A fork of [mattpocock/skills](https://github.com/mattpocock/skills), trimmed to the engineering flow the Loom workspace runs and adapted to its conventions. Local deviations from upstream are listed in [CLAUDE.md](./CLAUDE.md).
+A fork of [mattpocock/skills](https://github.com/mattpocock/skills), trimmed to the engineering flow we actually run. The skills themselves stay generic — everything project-specific is read at runtime from the consuming repo's own files. Local deviations from upstream are listed in [CLAUDE.md](./CLAUDE.md).
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
 
@@ -26,7 +26,7 @@ This fork is its own single-plugin marketplace, and `.claude-plugin/plugin.json`
 what ships. From the workspace:
 
 ```bash
-claude plugin marketplace add /home/klad/loom/mp-modified-skills
+claude plugin marketplace add ./mp-modified-skills
 ```
 
 Then install `mattpocock-skills`. Project-scoped, and the manifest decides exactly which skills load.
@@ -37,9 +37,8 @@ twice.
 
 ### Then run `/setup-matt-pocock-skills`
 
-Once per repo. It writes `docs/agents/issue-tracker.md`, `docs/agents/domain.md` and
-`docs/agents/triage-labels.md` — the config every other engineering skill reads. All the Loom repos
-already have theirs.
+Once per repo, from that repo's root. It writes `docs/agents/issue-tracker.md`, `docs/agents/domain.md` and
+`docs/agents/triage-labels.md` — the config every other engineering skill reads.
 
 ## Why These Skills Exist
 
