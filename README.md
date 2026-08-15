@@ -142,7 +142,7 @@ Software engineering fundamentals matter more than ever. These skills are my bes
 
 ## Reference
 
-These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); they are the conversational and interview-driven ones, where auto-firing would be wrong. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
+These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); the agent never reaches for one on its own, because auto-firing it would be wrong. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits — the test is whether the model could usefully reach for it autonomously. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
 
 ### Engineering
 
