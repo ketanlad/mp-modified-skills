@@ -1,7 +1,6 @@
 ---
 name: implement
-description: "Implement a piece of work based on a spec or set of tickets."
-disable-model-invocation: true
+description: Implement a ticket or spec end to end - read the parent chain, follow the repo's issue-tracker and quality gates, drive /tdd, close out with /code-review, and ship a PR. Use when the user wants a ticket implemented, says "implement #N", or asks an agent to work an issue autonomously.
 ---
 
 Implement the work described by the user in the spec or tickets.
