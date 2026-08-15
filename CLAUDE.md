@@ -65,6 +65,6 @@ This fork is its own single-plugin marketplace. From the workspace:
 claude plugin marketplace add ./mp-modified-skills
 ```
 
-then install `mattpocock-skills`. `plugin.json` controls exactly what ships, and it's project-scoped.
+then install `mattpocock-skills`. `plugin.json` controls exactly what ships. The marketplace is recorded in user settings, so the install is user-scoped.
 `scripts/link-skills.sh` is the alternative — it symlinks every skill into `~/.claude/skills`
 user-wide, ignoring `plugin.json`. Use one route, not both, or every skill appears twice.

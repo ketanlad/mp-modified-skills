@@ -29,7 +29,7 @@ what ships. From the workspace:
 claude plugin marketplace add ./mp-modified-skills
 ```
 
-Then install `mattpocock-skills`. Project-scoped, and the manifest decides exactly which skills load.
+Then install `mattpocock-skills`. The manifest decides exactly which skills load.
 
 The alternative is `scripts/link-skills.sh`, which symlinks every skill into `~/.claude/skills`
 user-wide and ignores `plugin.json`. Use one route or the other — both at once gives you every skill
