@@ -1,6 +1,6 @@
 ---
 name: implement
-description: Implement a ticket or spec end to end — read the parent chain, follow the repo's issue-tracker and quality gates, drive /tdd, close out with /code-review, and ship a PR. Use when the user asks for a ticket, issue or spec to be implemented, or when an agent is handed one to work autonomously.
+description: Implement a ticket or spec end to end — read the parent chain, follow the repo's issue-tracker and quality gates, drive /tdd, and close out with /code-review. Use when the user asks for a ticket, issue or spec to be implemented, or when an agent is handed one to work autonomously.
 ---
 
 Implement the work described by the user in the spec or tickets.
