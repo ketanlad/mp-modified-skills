@@ -10,9 +10,7 @@
 
 # Skills For Real Engineers
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
-
-My agent skills that I use every day to do real engineering - not vibe coding.
+A fork of [mattpocock/skills](https://github.com/mattpocock/skills), trimmed to the engineering flow we actually run. The skills themselves stay generic — everything project-specific is read at runtime from the consuming repo's own files. Local deviations from upstream are listed in [CLAUDE.md](./CLAUDE.md).
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
 
@@ -22,64 +20,25 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 [Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
-## Installation (30-second setup)
+## Installation
 
-Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship — you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one — installing both leaves you with every skill twice.
-
-### 1. Get the skills
-
-<details>
-<summary><strong>Claude Code</strong></summary>
+This fork is its own single-plugin marketplace, and `.claude-plugin/plugin.json` is the allowlist of
+what ships. From the workspace:
 
 ```bash
-claude plugins install mattpocock-skills
+claude plugin marketplace add ./mp-modified-skills
 ```
 
-Or, from inside a session:
+Then install `mattpocock-skills`. Project-scoped, and the manifest decides exactly which skills load.
 
-```
-/plugin install mattpocock-skills
-```
+The alternative is `scripts/link-skills.sh`, which symlinks every skill into `~/.claude/skills`
+user-wide and ignores `plugin.json`. Use one route or the other — both at once gives you every skill
+twice.
 
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
+### Then run `/setup-matt-pocock-skills`
 
-</details>
-
-<details>
-<summary><strong>Codex, and other agents</strong></summary>
-
-```bash
-npx skills@latest add mattpocock/skills
-```
-
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take — make sure `setup-matt-pocock-skills` is one of them.**
-
-A native Codex plugin is on the roadmap — see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
-
-</details>
-
-<details>
-<summary><strong>For tinkerers</strong></summary>
-
-Use the same installer, on any agent — including Claude Code:
-
-```bash
-npx skills@latest add mattpocock/skills
-```
-
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
-
-</details>
-
-### 2. Run `/setup-matt-pocock-skills`
-
-In your agent, run it once per repo. It will:
-
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
-- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
-- Ask you where you want to save any docs we create
-
-### 3. Bam - you're ready to go.
+Once per repo, from that repo's root. It writes `docs/agents/issue-tracker.md`, `docs/agents/domain.md` and
+`docs/agents/triage-labels.md` — the config every other engineering skill reads.
 
 ## Why These Skills Exist
 
@@ -221,8 +180,6 @@ General workflow tools, not code-specific.
 
 - **[grill-me](./skills/productivity/grill-me/SKILL.md)** — Get relentlessly interviewed about a plan or design until every branch of the design tree is resolved.
 - **[handoff](./skills/productivity/handoff/SKILL.md)** — Compact the current conversation into a handoff document so another agent can continue the work.
-- **[teach](./skills/productivity/teach/SKILL.md)** — Teach the user a new skill or concept over multiple sessions, using the current directory as a stateful teaching workspace.
-- **[to-questionnaire](./skills/productivity/to-questionnaire/SKILL.md)** — Turn a decision you can't answer alone into a Markdown questionnaire for the one person who can — filled in async, or together over a meeting. It grills you about the send (who it's for, what you need back), not the subject.
 - **[wait-what](./skills/productivity/wait-what/SKILL.md)** — Fire this the moment a message doesn't land. The agent re-pitches it with the context you're missing, in plain English, using your `CONTEXT.md` vocabulary.
 
 **Model-invoked**
