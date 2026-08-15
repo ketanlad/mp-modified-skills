@@ -28,8 +28,8 @@ that lies is worse than no router.
 
 ## Local deviations from upstream
 
-Two skills differ from upstream. Both stay stack-agnostic. Keep them when merging upstream changes —
-they're deliberate, not drift.
+Two skills differ from upstream, plus one seeded config file. All stay stack-agnostic. Keep them when
+merging upstream changes — they're deliberate, not drift.
 
 - **`to-tickets` locks the design into the ticket body** — exact paths, signatures and models stated
   as "implement exactly this", plus a mandatory `## Success Criteria` (each criterion naming the
@@ -43,6 +43,12 @@ they're deliberate, not drift.
   the test command, coverage threshold and typechecker, verifies every success criterion by actually
   running it, and reaches for a repo's own scaffolding skill when one fits. Upstream's version is six
   lines and assumes you're watching.
+- **The GitHub tracker seed carries our issue conventions** —
+  `setup-matt-pocock-skills/issue-tracker-github.md` seeds the design-locked vs `## Analysis required`
+  split, mandatory `## Success Criteria` / `## Out of scope`, and the epics-off-the-board rule. It
+  deliberately does NOT require every leaf to hang off an epic, and does not archive board items on
+  close — both were tried and were pure overhead. Placeholders in the seed are meant to be filled in
+  per project; a section left with `<placeholder>` text in it should be deleted, not shipped.
 
 ## Conventions
 

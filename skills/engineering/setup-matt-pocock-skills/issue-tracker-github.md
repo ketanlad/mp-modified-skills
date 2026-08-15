@@ -19,8 +19,8 @@ Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all o
   children may live in other repos. A parent closes when all its children close. Don't add a second
   grouping mechanism (labels, milestones, custom fields) — one is enough and two always diverge.
 - **Work leaf issues only.** An issue with open sub-issues is a container, not a unit of work.
-- **No parentless leaves** — every leaf hangs off an epic. Creating a leaf with no obvious parent
-  means finding or creating the epic first.
+- A leaf does not need a parent. Group under an epic when the work genuinely spans several tickets;
+  file a standalone leaf when it doesn't.
 
 ## Mandatory body sections
 
@@ -53,8 +53,8 @@ issue, not a task for the implementer.
 3. Branch from `main`. Open a **PR whose body ends with `Closes #<n>`** so the merge auto-closes the
    issue. `<any trailer conventions or prohibitions>`
 4. Verify **every** success criterion by running the command or test it names.
-5. Merge → the issue auto-closes. Set board Status → **Done** and archive the board item so closed
-   issues don't linger. Add a completion-summary comment if the PR body doesn't cover it.
+5. Merge → the issue auto-closes. Set board Status → **Done**. Add a completion-summary comment if
+   the PR body doesn't cover it.
 6. When all sub-issues of a parent are closed, close the parent with a one-line comment and mark it
    Done too.
 
