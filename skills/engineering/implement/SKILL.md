@@ -8,6 +8,20 @@ Implement the work described by the user in the spec or tickets.
 Never reopen the plan. Whatever was settled upstream is the input, and your job is to turn it into a
 commit. If a ticket is genuinely ambiguous, stop and ask — don't guess, and don't widen scope.
 
+## Scope: full or staged
+
+By default you own the whole flow below, steps 1–5 — the standalone behaviour, unchanged. An
+orchestrating pipeline may instead hand you a narrower scope, keeping review, full-suite
+validation, and shipping for its own later stages. Its stage instructions win over steps 4–5;
+steps 1–3 — read the chain, find the repo's rules, build with `/tdd` — always apply, in every
+scope.
+
+A typical narrowed scope asks for just the code, its tests, and a quick sanity check: do steps
+1–3 exactly as written, then typecheck and run only the test files you touched, and stop once the
+commit the caller asked for (for example, a single WIP commit on the current branch) sits on the
+branch with a clean tree. The pipeline's later stages own the full suite, the code review, the
+shipping, and — unless the caller asks you to verify them — the success criteria.
+
 ## 1. Read the ticket, and everything above it
 
 Read the ticket **and its full parent chain** — your work has to serve the parent's intent, not just
