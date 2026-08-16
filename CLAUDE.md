@@ -28,7 +28,7 @@ that lies is worse than no router.
 
 ## Local deviations from upstream
 
-Two skills differ from upstream, plus one seeded config file. All stay stack-agnostic. Keep them when
+Three skills differ from upstream, plus one seeded config file. All stay stack-agnostic. Keep them when
 merging upstream changes — they're deliberate, not drift.
 
 - **`to-tickets` locks the design into the ticket body** — exact paths, signatures and models stated
@@ -49,6 +49,10 @@ merging upstream changes — they're deliberate, not drift.
   deliberately does NOT require every leaf to hang off an epic, and does not archive board items on
   close — both were tried and were pure overhead. Placeholders in the seed are meant to be filled in
   per project; a section left with `<placeholder>` text in it should be deleted, not shipped.
+- **`grilling` delivers rounds one answer-effort at a time** — choice-shaped questions go through
+  the AskUserQuestion tool (≤4 per call, recommended option first); open-ended questions are asked
+  one at a time in chat. Upstream asks the whole frontier as one numbered list. We invert that
+  because a human answers every round: clicks are cheap, essays are not.
 
 ## Conventions
 

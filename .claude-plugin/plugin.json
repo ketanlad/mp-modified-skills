@@ -1,6 +1,6 @@
 {
   "name": "mattpocock-skills",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Matt Pocock's engineering skills, trimmed and adapted for the Loom workspace — grilling, spec/ticket flows, TDD, code review, domain modelling.",
   "author": {
     "name": "Matt Pocock",
